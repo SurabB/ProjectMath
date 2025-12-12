@@ -1,5 +1,6 @@
 package project.sb.math;
 
+import java.util.Arrays;
 import java.util.stream.IntStream;
 
 public class GaussJordanMatrixSolver {
@@ -11,14 +12,18 @@ public class GaussJordanMatrixSolver {
         if(matrix==null){
             throw new IllegalArgumentException("Matrix passed in constructor should not be null");
         }
+        double[][] copy= Arrays.stream(matrix)
+                .map(double[]::clone)
+                .toArray(double[][]::new);
+
     //checks if provided matrix is valid square matrix
-        if(!isValidSquareMatrix(matrix)){
+        if(!isValidSquareMatrix(copy)){
            throw new IllegalArgumentException("Illegal matrix passed for computation: matrix should be a square matrix") ;
         }
-        if(getDeterminant(matrix)==0) throw new IllegalArgumentException("provided matrix is not invertible");
+        if(getDeterminant(copy)==0) throw new IllegalArgumentException("provided matrix is not invertible");
 
-        this.matrix = matrix;
-        this.ans=createInitialAns(matrix);
+        this.matrix = copy;
+        this.ans=createInitialAns(copy);
     }
 
     public static boolean isValidSquareMatrix(double[][] matrix) {
@@ -143,13 +148,13 @@ public class GaussJordanMatrixSolver {
     }
 
 
-    //func eliminates/removes particular row and col passed in parameter from provided array and returns new array
+    //func eliminates/removes particular row and col passed in parameter from provided array and returns new array(doesn't work for jagged array)
     public static double[][] eliminateRowCol(double[][] arr, int row,int col){
-        double[][] newArr=new double[arr.length-1][arr.length-1];
+        double[][] newArr=new double[arr.length-1][arr[0].length-1];
         boolean rowEliminated=false;
         for(int i=0;i<arr.length;i++){
             boolean colValEliminated=false;
-            for(int j=0;j<arr.length;j++){
+            for(int j=0;j<arr[0].length;j++){
                 if(i==row){
                     rowEliminated=true;
                     break;
