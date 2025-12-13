@@ -4,26 +4,21 @@ import java.util.Arrays;
 import java.util.stream.IntStream;
 
 public class GaussJordanMatrixSolver {
-    private final double[][] matrix;//stores problem matrix
-    private final double[][] ans;// stores solution
 
 
-    public GaussJordanMatrixSolver(double[][] matrix) {
+
+
+    private static void validation(double[][] matrix) {
         if(matrix==null){
-            throw new IllegalArgumentException("Matrix passed in constructor should not be null");
+            throw new IllegalArgumentException("Matrix passed as parameter should not be null");
         }
-        double[][] copy= Arrays.stream(matrix)
-                .map(double[]::clone)
-                .toArray(double[][]::new);
+
 
     //checks if provided matrix is valid square matrix
-        if(!isValidSquareMatrix(copy)){
+        if(!isValidSquareMatrix(matrix)){
            throw new IllegalArgumentException("Illegal matrix passed for computation: matrix should be a square matrix") ;
         }
-        if(getDeterminant(copy)==0) throw new IllegalArgumentException("provided matrix is not invertible");
 
-        this.matrix = copy;
-        this.ans=createInitialAns(copy);
     }
 
     public static boolean isValidSquareMatrix(double[][] matrix) {
@@ -43,23 +38,35 @@ public class GaussJordanMatrixSolver {
         return  arr;
     }
 
-    public double[][] compute(){
-        for(int i=0;i< matrix.length;i++){
-            //gets a particular column based on column index
-            double[] column = getColumn(matrix,i);
+    public static double[][] compute(double[][] arr){
+         validation(arr);
+         double[][] matrix= Arrays.stream(arr)
+                 .map(double[]::clone) // Clones each inner array
+                 .toArray(double[][]::new);
 
+         double[][] ans=createInitialAns(matrix);
+
+        for(int i=0;i< matrix.length;i++){
             //gets a pivot element: diagonal element for that particular column
-            double pivotElement = column[i];
+            double pivotElement = matrix[i][i];
             //makes diagonal element 1
-            computeForDiagonal(pivotElement, i);
+            computeForDiagonal(matrix,ans, i);
 
             //compute for all non-diagonal element of that particular column
-            for (int j=0;j<column.length;j++){
+            for (int j= matrix.length-1;j>=0;j--){
                 //except for diagonal element compute other elements to make them 0
+
+
                 if(i!=j) {
-                    computeExceptDiagonal(column[j],j,i);
+                    computeExceptDiagonal(matrix,ans,j,i);
+                }
+                if(i== matrix.length-2 && j==matrix.length-1){
+                    if(!isInvertible(matrix)){
+                        throw  new IllegalArgumentException("matrix is not invertible");
+                    }
                 }
             }
+
 
         }
 
@@ -67,12 +74,9 @@ public class GaussJordanMatrixSolver {
         return ans;
     }
 
-    public static double[] getColumn(double[][] arr,int column) {
-        return IntStream.range(0, arr.length)
-                .mapToDouble(i -> arr[i][column])
-                .toArray();
-    }
-    public void computeExceptDiagonal(double currVal,int i,int j) {
+    private static void computeExceptDiagonal(double[][] matrix,double[][] ans,int i,int j) {
+
+        double currVal=matrix[i][j];
         //if element already 0 for non-diagonal element, skip the process else follow the process.
         if (currVal != 0) {
 
@@ -86,7 +90,8 @@ public class GaussJordanMatrixSolver {
         }
     }
 
-    public void computeForDiagonal(double currVal,int i)  {
+    private static void computeForDiagonal(double[][] matrix,double[][] ans,int i)  {
+        double currVal=matrix[i][i];
         if(currVal==1) return; //if currVal is a already 1 ,don't do any computation.
 
         if(currVal!=0){ //if current value is less than or greater than 0
@@ -125,26 +130,14 @@ public class GaussJordanMatrixSolver {
         }
        
     }
-    public static double getDeterminant(double[][] arr){
-        //when arr is reduced to have only one element return it
-        if(arr.length==1){
-            return arr[0][0];
+    private static boolean isInvertible(double[][] arr) {
+        double esp=1e-10;
+        for(int i=0;i< arr.length;i++){
+            if((Math.abs(arr[i][i])-esp)<=0){
+                return false;
+            }
         }
-
-        //stores determinant value;
-        double sum=0;
-        for(int i=0;i<arr.length;i++){
-           //at alternate value add - symbol
-            double val = (i % 2 == 0) ? arr[0][i] : -arr[0][i];
-
-            //eliminates provided row and col to give a new array
-            double[][] newArr = eliminateRowCol(arr, 0, i);
-
-            //recursively calls determinant func with new array
-            sum+=val*getDeterminant(newArr);
-
-        }
-        return sum;
+        return true;
     }
 
 
