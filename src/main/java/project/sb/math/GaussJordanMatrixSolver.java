@@ -5,9 +5,6 @@ import java.util.stream.IntStream;
 
 public class GaussJordanMatrixSolver {
 
-
-
-
     private static void validation(double[][] matrix) {
         if(matrix==null){
             throw new IllegalArgumentException("Matrix passed as parameter should not be null");
@@ -38,8 +35,82 @@ public class GaussJordanMatrixSolver {
         return  arr;
     }
 
-    public static double[][] compute(double[][] arr){
-         validation(arr);
+public static double getDeterminantByElimination(double[][] matrix){
+
+        validation(matrix);
+
+        //creates deep copy of given 2d array so that passed array is not modified for computation
+    double[][] arr =  Arrays.stream(matrix)
+            .map(double[]::clone)
+            .toArray(double[][]::new);
+
+    //keeps track of how many times rows are swapped
+        int swappedRows = 0;
+        for(int i=0;i<arr.length-1;i++){
+            //for diagonal
+
+                    if (arr[i][i] == 0) {
+
+                        //swap rows
+                      boolean pivotFound=false;
+                        for (int k = i+1; k < arr.length; k++) {
+                            if (arr[k][i] != 0) {
+
+                                for (int l = 0; l < arr.length; l++) {
+
+                                    double mainRowVal = arr[i][l];
+                                    arr[i][l] = arr[k][l];
+                                    arr[k][l] = mainRowVal;
+                                    pivotFound=true;
+                                    swappedRows++;
+                                }
+                                break;
+                            }
+
+                        }
+                        if (!pivotFound) return 0;
+                    }
+
+
+
+
+            for(int j=i+1;j<arr.length;j++){
+
+
+                //for element except diagonal
+                     double multiplyConstant=((arr[j][i]/arr[i][i]));
+                    if (arr[j][i] != 0) {
+                        //it traverses through pivot element(arr[i][i]) row and currVal row to perform necessary operation
+                        for(int k=0;k<arr.length;k++){
+
+                            arr[j][k] -= (arr[i][k]*multiplyConstant);
+                        }
+
+
+                    }
+
+
+
+
+
+            }
+
+        }
+        //find determinant by multiplying diagonal elements
+    double determinant=1;
+    for(int p=0;p<arr.length;p++){
+
+        determinant *=arr[p][p];
+
+    }
+    return determinant*Math.pow(-1,swappedRows);
+
+
+}
+    public static double[][] inverse(double[][] arr){
+
+         if(getDeterminantByElimination(arr)==0) throw new IllegalArgumentException("provided matrix is not invertible");
+
          double[][] matrix= Arrays.stream(arr)
                  .map(double[]::clone) // Clones each inner array
                  .toArray(double[][]::new);
@@ -47,8 +118,7 @@ public class GaussJordanMatrixSolver {
          double[][] ans=createInitialAns(matrix);
 
         for(int i=0;i< matrix.length;i++){
-            //gets a pivot element: diagonal element for that particular column
-            double pivotElement = matrix[i][i];
+
             //makes diagonal element 1
             computeForDiagonal(matrix,ans, i);
 
@@ -60,11 +130,7 @@ public class GaussJordanMatrixSolver {
                 if(i!=j) {
                     computeExceptDiagonal(matrix,ans,j,i);
                 }
-                if(i== matrix.length-2 && j==matrix.length-1){
-                    if(!isInvertible(matrix)){
-                        throw  new IllegalArgumentException("matrix is not invertible");
-                    }
-                }
+
             }
 
 
@@ -130,48 +196,8 @@ public class GaussJordanMatrixSolver {
         }
        
     }
-    private static boolean isInvertible(double[][] arr) {
-        double esp=1e-10;
-        for(int i=0;i< arr.length;i++){
-            if((Math.abs(arr[i][i])-esp)<=0){
-                return false;
-            }
-        }
-        return true;
-    }
 
 
-    //func eliminates/removes particular row and col passed in parameter from provided array and returns new array(doesn't work for jagged array)
-    public static double[][] eliminateRowCol(double[][] arr, int row,int col){
-        double[][] newArr=new double[arr.length-1][arr[0].length-1];
-        boolean rowEliminated=false;
-        for(int i=0;i<arr.length;i++){
-            boolean colValEliminated=false;
-            for(int j=0;j<arr[0].length;j++){
-                if(i==row){
-                    rowEliminated=true;
-                    break;
-                }
-                if(j==col){
-                    colValEliminated=true;
-                    continue;
-                }
-                if(rowEliminated&&colValEliminated)
-                    newArr[i-1][j-1]=arr[i][j];
-
-                else if(rowEliminated)
-                    newArr[i-1][j]=arr[i][j];
-
-                else if(colValEliminated) newArr[i][j-1]=arr[i][j];
-
-                else newArr[i][j]=arr[i][j];
-
-            }
-
-
-        }
-        return newArr;
-    }
 
 
 }
