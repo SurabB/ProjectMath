@@ -62,8 +62,9 @@ public static double getDeterminantByElimination(double[][] matrix){
                                     arr[i][l] = arr[k][l];
                                     arr[k][l] = mainRowVal;
                                     pivotFound=true;
-                                    swappedRows++;
+
                                 }
+                                swappedRows++;
                                 break;
                             }
 
