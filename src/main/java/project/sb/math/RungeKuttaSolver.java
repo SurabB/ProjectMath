@@ -5,10 +5,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.function.BiFunction;
 
-interface TriFunction<T>{
-    T apply(T a, T b, T c);
-}
-
 public class RungeKuttaSolver {
 
 
