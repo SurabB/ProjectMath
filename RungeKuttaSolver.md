@@ -18,7 +18,17 @@ also,
 z<sub>n+1</sub> <sup>euler</sup> =z<sub>n</sub> + h * g[x<sub>n</sub>, y<sub>n</sub> ,z<sub>n</sub>] where g[x<sub>n</sub>, y<sub>n</sub> ,z<sub>n</sub>]=dz/dx
 
 </p>
+<p>method FirstOrderDiffUsingRk4()-><br>
+follows formulas:<br>
+k<sub>1</sub> = h*f[x<sub>n</sub>,y<sub>n</sub>] where f[x<sub>n</sub>,y<sub>n</sub>]=dy/dx<br>
+k<sub>2</sub> =h*f[x<sub>n</sub>+h/2,y<sub>n</sub>+k<sub>1</sub>/2] where f[x<sub>n</sub>,y<sub>n</sub>]=dy/dx<br>
+k<sub>3</sub> =h*f[x<sub>n</sub>+h/2,y<sub>n</sub>+k<sub>2</sub>/2] where f[x<sub>n</sub>,y<sub>n</sub>]=dy/dx<br>
+k<sub>4</sub> =h*f[x<sub>n</sub>+h,y<sub>n</sub>+k<sub>3</sub>] where f[x<sub>n</sub>,y<sub>n</sub>]=dy/dx<br>
+y<sub>n+1</sub>=y<sub>n</sub>+(1/6)*(k<sub>1</sub>+ 2*k<sub>2</sub> +2*k<sub>3</sub> +k<sub>4</sub>)<br>
 
+
+
+</p>
 <p>method secondOrderDiffUsingRk4()-><br>
 follows formulas:<br>
 k<sub>1</sub> =h*F[x<sub>n</sub>,y<sub>n</sub>,z<sub>n</sub>] where F[x<sub>n</sub>,y<sub>n</sub>,z<sub>n</sub>] is assumed to be z<sub>n</sub> =dy/dx, <br>

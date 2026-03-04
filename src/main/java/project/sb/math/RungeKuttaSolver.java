@@ -88,6 +88,31 @@ public class RungeKuttaSolver {
         }
         return values;
     }
+    public static  HashMap<Integer, List<Double>>firstOrderDiffUsingRk4(double xnow,double ynow,double h,BiFunction<Double,Double,Double> func,int itr){
+        //stores values  x,y,z  for each iteration including initial ones
+        HashMap<Integer,List<Double>> values=new LinkedHashMap<>(itr+1);
+
+        for(int i=0;i<=itr;i++){
+
+            //stores current value of x,y
+            values.put(i,List.of(xnow,ynow));
+
+            //find k1,k2,k3,k4 for necessary computation
+            double kOne=h*func.apply(xnow,ynow);
+            double kTwo=h* func.apply(xnow+h/2,ynow+kOne/2);
+            double kThree=h* func.apply(xnow+h/2,ynow+kTwo/2);
+            double kFour=h*func.apply(xnow+h,ynow+kThree);
+
+
+            //follows rk4/classical method yn+1  formula
+            double ynext=ynow+(1.0/6)*(kOne+(2*kTwo)+(2*kThree)+kFour);
+
+            //update the values
+            ynow=ynext;
+            xnow=xnow+h;
+        }
+        return values;
+    }
     public static  HashMap<Integer, List<Double>> secondOrderDiffUsingRk4(double xnow,double ynow,double znow,double h,TriFunction<Double> func,int itr){
         //stores values  x,y,z  for each iteration including initial ones
         HashMap<Integer,List<Double>> values=new LinkedHashMap<>(itr+1);
