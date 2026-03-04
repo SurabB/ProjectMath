@@ -120,7 +120,7 @@ public class RootFinder {
 
 
 
-    final static class Seed {
+    public final static class Seed {
         private final double F_GUESS;
         private final double S_GUESS;
         private final Function<Double, Double> function;
