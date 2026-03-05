@@ -96,7 +96,7 @@ public class GaussJordan {
     }
 
     public static double[] solveEqn(double[][] A, double[] B) {
-        if (A == null) {
+        if (A == null||B==null) {
             throw new IllegalArgumentException("Matrix passed as parameter should not be null");
         }
         if (A.length != B.length) {
