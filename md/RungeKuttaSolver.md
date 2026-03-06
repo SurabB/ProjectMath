@@ -1,73 +1,197 @@
-<h2>RangeKuttaSolver-->src/main/java/project/sb/Math/RangeKuttaSolver.java</h2>
-<p> Takes initial values x<sub>0</sub>, y<sub>0</sub>, h, F(x,y) and no of itr for first order differential equation and perform necessary opr</p>
-<p> Takes initial values x<sub>0</sub>, y<sub>0</sub>,z<sub>0</sub>, h, g(x,y) and no of itr for second order differential equation and perform necessary opr</p>
+# RungeKuttaSolver
 
-<p>method firstOrderDiffUsingEuler()-> follows Euler formula: y<sub>n+1</sub> = y<sub>n</sub>+h * F[x<sub>n</sub>, y<sub>n</sub>], and x<sub>n+1</sub>= x<sub>n</sub> + h</p>
-<p>method secondOrderDiffUsingEuler()-> follows Euler formula: y<sub>n+1</sub> = y<sub>n</sub>+h * F[x<sub>n</sub>, y<sub>n</sub>,z<sub>n</sub>], where[x,y,z] is assumed to be dy/dx=z and x<sub>n+1</sub>= x<sub>n</sub> + h</p>
-<p>z<sub>n+1</sub>=z<sub>n</sub>+h*g[x<sub>n</sub>,y<sub>n</sub>,z<sub>n</sub>] ,where g[x,y,z] is assumed to be dz/dx
-<br>
-and x<sub>n+1</sub>= x<sub>n</sub> + h</p>
+**Location:**
+```
+src/main/java/project/sb/Math/RungeKuttaSolver.java
+```
 
-<p>method firstOrderDiffUsingRk2()-> follows Heun's formula: y<sub>n+1</sub> = y<sub>n</sub>+(h/2) * [F(x<sub>n</sub>, y<sub>n</sub>) + F(x<sub>n+1</sub>,y<sub>n+1</sub> <sup>euler</sup>)]  and x<sub>n+1</sub>=x<sub>n</sub> + h <br> and y<sub>n+1</sub> <sup>euler</sup>
-  =y<sub>n</sub> + h * F[x<sub>n</sub>, y<sub>n</sub>]</p>
+The `RungeKuttaSolver` class provides utilities to solve **Ordinary Differential Equations (ODEs)** numerically.
 
-<p>method secondOrderDiffUsingRk2()-> follows Heun's formula: y<sub>n+1</sub> = y<sub>n</sub>+(h/2) * [F(x<sub>n</sub>, y<sub>n</sub> , z<sub>n</sub>) + F(x<sub>n+1</sub>,y<sub>n+1</sub> <sup>euler</sup>, z<sub>n+1</sub> <sup>euler</sup>)]  and x<sub>n+1</sub>=x<sub>n</sub> + h <br> and
-y<sub>n+1</sub> <sup>euler</sup> =y<sub>n</sub> + h * F[x<sub>n</sub>, y<sub>n</sub> ,z<sub>n</sub>] where F[x<sub>n</sub>, y<sub>n</sub> ,z<sub>n</sub>]=z<sub>n</sub>
-<br>
-also,
-z<sub>n+1</sub> <sup>euler</sup> =z<sub>n</sub> + h * g[x<sub>n</sub>, y<sub>n</sub> ,z<sub>n</sub>] where g[x<sub>n</sub>, y<sub>n</sub> ,z<sub>n</sub>]=dz/dx
+It supports:
 
-</p>
-<p>method FirstOrderDiffUsingRk4()-><br>
-follows formulas:<br>
-k<sub>1</sub> = h*f[x<sub>n</sub>,y<sub>n</sub>] where f[x<sub>n</sub>,y<sub>n</sub>]=dy/dx<br>
-k<sub>2</sub> =h*f[x<sub>n</sub>+h/2,y<sub>n</sub>+k<sub>1</sub>/2] where f[x<sub>n</sub>,y<sub>n</sub>]=dy/dx<br>
-k<sub>3</sub> =h*f[x<sub>n</sub>+h/2,y<sub>n</sub>+k<sub>2</sub>/2] where f[x<sub>n</sub>,y<sub>n</sub>]=dy/dx<br>
-k<sub>4</sub> =h*f[x<sub>n</sub>+h,y<sub>n</sub>+k<sub>3</sub>] where f[x<sub>n</sub>,y<sub>n</sub>]=dy/dx<br>
-y<sub>n+1</sub>=y<sub>n</sub>+(1/6)*(k<sub>1</sub>+ 2*k<sub>2</sub> +2*k<sub>3</sub> +k<sub>4</sub>)<br>
+- Euler Method
+- Runge–Kutta 2nd Order (Heun’s Method)
+- Runge–Kutta 4th Order
 
+It can handle:
 
+- First-order ODEs: `dy/dx = f(x,y)` 
+- Second-order ODEs: `d²y/dx² = g(x,y,z)` (using substitution `z = dy/dx`)
 
-</p>
-<p>method secondOrderDiffUsingRk4()-><br>
-follows formulas:<br>
-k<sub>1</sub> =h*F[x<sub>n</sub>,y<sub>n</sub>,z<sub>n</sub>] where F[x<sub>n</sub>,y<sub>n</sub>,z<sub>n</sub>] is assumed to be z<sub>n</sub> =dy/dx, <br>
-l<sub>1</sub> = h*g[x<sub>n</sub>,y<sub>n</sub>,z<sub>n</sub>] where g[x<sub>n</sub>,y<sub>n</sub>,z<sub>n</sub>]=dz/dx<br>
-k<sub>2</sub> =h*F[x<sub>n</sub>+h/2,y<sub>n</sub>+k<sub>1</sub>/2,z<sub>n</sub>+l<sub>1</sub>/2] where F[x<sub>n</sub>,y<sub>n</sub>,z<sub>n</sub>] is assumed to be z<sub>n</sub> , <br>
-l<sub>2</sub> =h*g[x<sub>n</sub>+h/2,y<sub>n</sub>+k<sub>1</sub>/2,z<sub>n</sub>+l<sub>1</sub>/2] where g[x<sub>n</sub>,y<sub>n</sub>,z<sub>n</sub>]=dz/dx<br>
-k<sub>3</sub> =h*F[x<sub>n</sub>+h/2,y<sub>n</sub>+k<sub>2</sub>/2,z<sub>n</sub>+l<sub>2</sub>/2] where F[x<sub>n</sub>,y<sub>n</sub>,z<sub>n</sub>] is assumed to be z<sub>n</sub> , <br>
-l<sub>3</sub> =h*g[x<sub>n</sub>+h/2,y<sub>n</sub>+k<sub>2</sub>/2,z<sub>n</sub>+l<sub>2</sub>/2] where g[x<sub>n</sub>,y<sub>n</sub>,z<sub>n</sub>]=dz/dx<br>
-k<sub>4</sub> =h*F[x<sub>n</sub>+h,y<sub>n</sub>+k<sub>3</sub>,z<sub>n</sub>+l<sub>3</sub>] where F[x<sub>n</sub>,y<sub>n</sub>,z<sub>n</sub>] is assumed to be z<sub>n</sub> , <br>
-l<sub>4</sub> =h*g[x<sub>n</sub>+h,y<sub>n</sub>+k<sub>3</sub>,z<sub>n</sub>+l<sub>3</sub>] where g[x<sub>n</sub>,y<sub>n</sub>,z<sub>n</sub>]=dz/dx<br>
-y<sub>n+1</sub>=y<sub>n</sub>+(1/6)*(k<sub>1</sub>+ 2*k<sub>2</sub> +2*k<sub>3</sub> +k<sub>4</sub>)<br>
-z<sub>n+1</sub>=z<sub>n</sub>+(1/6)*(l<sub>1</sub>+ 2*l<sub>2</sub> +2*l<sub>3</sub> +l<sub>4</sub>)<br>
+---
 
+# Mathematical Background
 
+## First Order ODE
 
-</p>
+***
+dy/dx = f(x,y) \
+y(x<sub>0</sub>) = y<sub>0</sub>
+***
 
-<h2> EG: </h2>
-<pre>
-  public static void main(String[] args) {
-           //firstOrderDiffUsingRk2(1,2,0.5,(x,y)->(2*y)/x,2);
+## Second Order ODE
 
-       // HashMap<Integer, List<Double>> values =firstOrderDiffUsingEuler(0, 1, 0.1, (x, y) -> 2 * x * y, 3);
-        //x0,y0,h,dy/dx,no.of itr
+***
+d²y/dx² = g(x,y,z)\
+Let z = dy/dx\
+Then:\
+  dy/dx = z\
+  dz/dx = g(x,y,z)\
+y(x<sub>0</sub>) = y<sub>0</sub>\
+z(x<sub>0</sub>) = z<sub>0</sub>
+***
 
-      //  HashMap<Integer, List<Double>> values = firstOrderDiffUsingRk2(1, 2, 0.25, (x, y) -> y + Math.sin(x), 2);
-         //x0,y0,h,dy/dx,no.of itr
+---
 
-       // HashMap<Integer, List<Double>> values = secondOrderDiffUsingEuler(0, 0, 1, 0.2, (x, y, z) -> 6 + 3 * y - 2 * z, 2);
-        //x0,y0,z0,h,dz/dx,no.of itr
+# Methods
 
-        //HashMap<Integer, List<Double>> values = secondOrderDiffUsingRk2(0, 0, 0, 0.25, (x, y, z) -> 5 - 2 * z + 4 * y, 2);
-          //x0,y0,z0,h,dz/dx,no.of itr
+## First Order Solvers
 
-        HashMap<Integer, List<Double>> values = RungeKuttaSolver.secondOrderDiffUsingRk4(0, 0, 0, 0.25, (x, y, z )-> 5 + 4 * y - 2 * z, 2);
-        //x0,y0,z0,h,dz/dx,no.of itr
-        values.forEach((key,value)->{
-            System.out.println("itr: %d , values = %s".formatted(key,value));
-        });
+### firstOrderDiffUsingEuler()
 
-    }
-</pre>
+**System:**
+```
+dy/dx = f(x,y)
+```
+
+**Formula:**
+***
+y<sub>n+1</sub> = y<sub>n</sub> + h * F[x<sub>n</sub>, y<sub>n</sub>]\
+x<sub>n+1</sub> = x<sub>n</sub> + h
+***
+
+---
+
+### firstOrderDiffUsingRk2()
+
+**Heun's Method (Rk2):**
+***
+y<sub>n+1</sub> = y<sub>n</sub> + (h/2) * [F(x<sub>n</sub>,y<sub>n</sub>) + F(x<sub>n+1</sub>, y<sub>n+1</sub><sup>euler</sup>)]\
+x<sub>n+1</sub> = x<sub>n</sub> + h\
+y<sub>n+1</sub><sup>euler</sup> = y<sub>n</sub> + h * F(x<sub>n</sub>,y<sub>n</sub>)
+***
+
+---
+
+### firstOrderDiffUsingRk4()
+
+**System:**
+```
+dy/dx = f(x,y)
+```
+
+**Formula:**
+***
+k<sub>1</sub> = h * f(x<sub>n</sub>, y<sub>n</sub>)\
+k<sub>2</sub> = h * f(x<sub>n</sub> + h/2, y<sub>n</sub> + k<sub>1</sub>/2)\
+k<sub>3</sub> = h * f(x<sub>n</sub> + h/2, y<sub>n</sub> + k<sub>2</sub>/2)\
+k<sub>4</sub> = h * f(x<sub>n</sub> + h, y<sub>n</sub> + k<sub>3</sub>)\
+y<sub>n+1</sub> = y<sub>n</sub> + (1/6) * (k<sub>1</sub> + 2*k<sub>2</sub> + 2*k<sub>3</sub> + k<sub>4</sub>)\
+x<sub>n+1</sub> = x<sub>n</sub> + h\
+***
+
+---
+
+## Second Order Solvers
+
+### secondOrderDiffUsingEuler()
+
+**System:**
+```
+dy/dx = z
+dz/dx = g(x,y,z)
+```
+
+**Formulas:**
+***
+y<sub>n+1</sub> = y<sub>n</sub> + h * F(x<sub>n</sub>,y<sub>n</sub>,z<sub>n</sub>)\
+z<sub>n+1</sub> = z<sub>n</sub> + h * g(x<sub>n</sub>,y<sub>n</sub>,z<sub>n</sub>)\
+x<sub>n+1</sub> = x<sub>n</sub> + h\
+***
+
+---
+
+### secondOrderDiffUsingRk2()
+
+**Heun's Method (Rk2):**
+***
+y<sub>n+1</sub> = y<sub>n</sub> + (h/2) * [F(x<sub>n</sub>,y<sub>n</sub>,z<sub>n</sub>) + F(x<sub>n+1</sub>,y<sub>n+1</sub><sup>euler</sup>,z<sub>n+1</sub><sup>euler</sup>)]\
+z<sub>n+1</sub> = z<sub>n</sub> + (h/2) * [g(x<sub>n</sub>,y<sub>n</sub>,z<sub>n</sub>) + g(x<sub>n+1</sub>,y<sub>n+1</sub><sup>euler</sup>,z<sub>n+1</sub><sup>euler</sup>)]\
+x<sub>n+1</sub> = x<sub>n</sub> + h\
+***
+
+---
+
+### secondOrderDiffUsingRk4()
+
+**System:**
+```
+dy/dx = z
+dz/dx = g(x,y,z)
+```
+
+**Formulas:**
+***
+k<sub>1</sub> = h * F(x<sub>n</sub>,y<sub>n</sub>,z<sub>n</sub>)\
+l<sub>1</sub> = h * g(x<sub>n</sub>,y<sub>n</sub>,z<sub>n</sub>)\
+k<sub>2</sub> = h * F(x<sub>n</sub>+h/2, y<sub>n</sub>+k<sub>1</sub>/2, z<sub>n</sub>+l<sub>1</sub>/2)\
+l<sub>2</sub> = h * g(x<sub>n</sub>+h/2, y<sub>n</sub>+k<sub>1</sub>/2, z<sub>n</sub>+l<sub>1</sub>/2)\
+k<sub>3</sub> = h * F(x<sub>n</sub>+h/2, y<sub>n</sub>+k<sub>2</sub>/2, z<sub>n</sub>+l<sub>2</sub>/2)\
+l<sub>3</sub> = h * g(x<sub>n</sub>+h/2, y<sub>n</sub>+k<sub>2</sub>/2, z<sub>n</sub>+l<sub>2</sub>/2)\
+k<sub>4</sub> = h * F(x<sub>n</sub>+h, y<sub>n</sub>+k<sub>3</sub>, z<sub>n</sub>+l<sub>3</sub>)\
+l<sub>4</sub> = h * g(x<sub>n</sub>+h, y<sub>n</sub>+k<sub>3</sub>, z<sub>n</sub>+l<sub>3</sub>)\
+y<sub>n+1</sub> = y<sub>n</sub> + (1/6)*(k<sub>1</sub> + 2*k<sub>2</sub> + 2*k<sub>3</sub> + k<sub>4</sub>)\
+z<sub>n+1</sub> = z<sub>n</sub> + (1/6)*(l<sub>1</sub> + 2*l<sub>2</sub> + 2*l<sub>3</sub> + l<sub>4</sub>)\
+x<sub>n+1</sub> = x<sub>n</sub> + h\
+***
+
+---
+
+# Parameters and Return Types
+
+### First Order Solvers
+
+| Parameter | Description |
+|-----------|-------------|
+| x<sub>0</sub> | Initial x |
+| y<sub>0</sub> | Initial y |
+| h | Step size |
+| function | dy/dx |
+| iterations | Number of iterations |
+
+**Returns:**  
+`HashMap<Integer, List<Double>>` → iteration → `[x, y]`
+
+### Second Order Solvers
+
+| Parameter | Description |
+|-----------|-------------|
+| x<sub>0</sub> | Initial x |
+| y<sub>0</sub> | Initial y |
+| z<sub>0</sub> | Initial z |
+| h | Step size |
+| function | dz/dx |
+| iterations | Number of iterations |
+
+**Returns:**  
+`HashMap<Integer, List<Double>>` → iteration → `[x, y, z]`
+
+---
+
+# Example
+
+```java
+public static void main(String[] args) { 
+
+    HashMap<Integer, List<Double>> values = 
+        RungeKuttaSolver.secondOrderDiffUsingRk4(
+            0, 0, 0, 0.25, (x, y, z) -> 5 + 4*y - 2*z, 2
+        ); 
+
+    values.forEach((key, value) -> { 
+        System.out.println("itr: %d , values = %s".formatted(key, value)); 
+    }); 
+}
+```
+
+This will output the **iteration number and computed `[x, y, z]` values** for each step.

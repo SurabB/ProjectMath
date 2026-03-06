@@ -19,10 +19,10 @@ Add the repository to your `pom.xml`:
 
 ```xml
 <repositories>
-  <repository>
-      <id>github</id>
-      <url>https://maven.pkg.github.com/SurabB/ProjectMath</url>
-  </repository>
+    <repository>
+        <id>github</id>
+        <url>https://maven.pkg.github.com/SurabB/ProjectMath</url>
+    </repository>
 </repositories>
 ```
 
@@ -38,7 +38,7 @@ Add the repository to your `pom.xml`:
 ```
 
 ### Source code info:
-Information about a particular java file is available in respective .md  file inside md folder.
+<i>Information about a particular java file is available in respective <b>.md  file </b>inside <b>md</b> folder.</i>
 
 
 ## Requirements

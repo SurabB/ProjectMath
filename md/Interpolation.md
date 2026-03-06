@@ -1,77 +1,254 @@
-<h1>Interpolation-->src/main/java/project/sb/Math/Interpolation.java</h1>
-<hr>
-<p> One can solve interpolation problems using methods of this class</p>
-<br>
-<ol>
-<li>lagrange(): Follows lagrange interpolation formula:<br>
-<pre>
-For x and y consisting of 4 values.
-y<sub>x</sub> =[(x-x<sub>1</sub>)*(x-x<sub>2</sub>)*(x-x<sub>3</sub>)*y<sub>0</sub>]/[(x<sub>0</sub>-x<sub>1</sub>)*(x<sub>0</sub>-x<sub>2</sub>)*(x<sub>0</sub>-x<sub>3</sub>)]+
-     [(x-x<sub>0</sub>)*(x-x<sub>2</sub>)*(x-x<sub>3</sub>)*y<sub>1</sub>]/[(x<sub>1</sub>-x<sub>0</sub>)*(x<sub>1</sub>-x<sub>2</sub>)*(x<sub>1</sub>-x<sub>3</sub>)]+
-     [(x-x<sub>0</sub>)*(x-x<sub>1</sub>)*(x-x<sub>3</sub>)*y<sub>2</sub>]/[(x<sub>2</sub>-x<sub>0</sub>)*(x<sub>2</sub>-x<sub>1</sub>)*(x<sub>2</sub>-x<sub>3</sub>)]+
-     [(x-x<sub>0</sub>)*(x-x<sub>1</sub>)*(x-x<sub>2</sub>)*y<sub>3</sub>]/[(x<sub>3</sub>-x<sub>0</sub>)*(x<sub>3</sub>-x<sub>1</sub>)*(x<sub>3</sub>-x<sub>2</sub>)]
-</pre>
-<ul>
-<li>params: ax-> array of x, ay-> array of y, x-> x at position p(x(p)) which y needs to be calculated </li>
-<li> returns: y<sub>p</sub>-> y at position x(p)</li>
-</ul>
-</li>
+# Interpolation
 
-<li>
-newtonForward():  Follows newton forward interpolation formula.
-<pre>
-For x and y consisting of 4 values (where u = (x - x<sub>0</sub>) / h):
+**Location**
 
-y<sub>x</sub> = y<sub>0</sub> + u&Delta;y<sub>0</sub> + [u(u-1)/2!]&Delta;<sup>2</sup>y<sub>0</sub> + [u(u-1)(u-2)/3!]&Delta;<sup>3</sup>y<sub>0</sub>
+```
+src/main/java/project/sb/Math/Interpolation.java
+```
 
-Where:
-u      = (x - x<sub>0</sub>) / h
-h      = x<sub>1</sub> - x<sub>0</sub>
-&Delta;y<sub>0</sub>     = y<sub>1</sub> - y<sub>0</sub>
-&Delta;<sup>2</sup>y<sub>0</sub>    = &Delta;y<sub>1</sub> - &Delta;y<sub>0</sub>
-&Delta;<sup>3</sup>y<sub>0</sub>    = &Delta;<sup>2</sup>y<sub>1</sub> - &Delta;<sup>2</sup>y<sub>0</sub>
-</pre>
-<ul>
-<li>params: ax-> array of x, ay-> array of y, x-> x at position p(x(p)) which y needs to be calculated </li>
-<li> returns: y<sub>p</sub>-> y at position x(p)</li>
-</ul>
+`Interpolation` provides numerical methods to estimate the value of a function **between known data points**.
 
-</li>
+Interpolation is commonly used when:
 
-<li> newtonBackward()-> Follows newton backward interpolation formula:
-<pre>
+- Values of a function are known at discrete points
+- We need to estimate the value at an **intermediate point**
 
+Example
 
-For x and y consisting of 4 values (where u = (x - x<sub>3</sub>) / h):
+If we know
 
-y<sub>x</sub> = y<sub>3</sub> + u&nabla;y<sub>3</sub> + [u(u+1)/2!]&nabla;<sup>2</sup>y<sub>3</sub> + [u(u+1)(u+2)/3!]&nabla;<sup>3</sup>y<sub>3</sub>
+| x | y |
+|---|---|
+| 0 | 0 |
+| 1 | 1 |
+| 2 | 12 |
+| 3 | 57 |
 
-Where:
-u      = (x - x<sub>3</sub>) / h
-h      = x<sub>1</sub> - x<sub>0</sub>
-&nabla;y<sub>3</sub>     = y<sub>3</sub> - y<sub>2</sub>
-&nabla;<sup>2</sup>y<sub>3</sub>    = &nabla;y<sub>3</sub> - &nabla;y<sub>2</sub>
-&nabla;<sup>3</sup>y<sub>3</sub>    = &nabla;<sup>2</sup>y<sub>3</sub> - &nabla;<sup>2</sup>y<sub>2</sub>
-</pre>
-<ul>
-<li>params: ax-> array of x, ay-> array of y, x-> x at position p(x(p)) which y needs to be calculated </li>
-<li> returns: y<sub>p</sub>-> y at position x(p)</li>
-</ul>
-</li>
+we can estimate **y at x = 2.7**.
 
-</ol>
-<h2>Eg:</h2>
-<pre>
-    public static void main(String[] args) {
-        double[] ax = {0, 1, 2, 3};
-        double[] ay = {0, 1, 12, 57};
-        double x = 2.7;
-        double forward = Interpolation.newtonForward(ax, ay, x);
-        double back = Interpolation.newtonBackward(ax, ay, x);
-        double lagrange = Interpolation.lagrange(ax, ay, x);
-        System.out.println("N Forward:" + forward);
-        System.out.println("lagrange:" + lagrange);
-        System.out.println("N Backward:" + back);
+---
 
-    }
-</pre>
+# Methods
+
+The class supports the following interpolation techniques:
+
+- Lagrange Interpolation
+- Newton Forward Interpolation
+- Newton Backward Interpolation
+
+All methods in this class are **static**.
+
+---
+
+# lagrange()
+
+Computes interpolation using the **Lagrange polynomial**.
+
+The general formula:
+
+y(x) = Σ L<sub>i</sub>(x) y<sub>i</sub>
+
+Where
+
+L<sub>i</sub>(x) = Π (x − x<sub>j</sub>) / (x<sub>i</sub> − x<sub>j</sub>)  
+for j ≠ i
+
+---
+
+### Example (4 data points)
+
+```
+y(x) =
+[(x-x₁)(x-x₂)(x-x₃)y₀] / [(x₀-x₁)(x₀-x₂)(x₀-x₃)] +
+
+[(x-x₀)(x-x₂)(x-x₃)y₁] / [(x₁-x₀)(x₁-x₂)(x₁-x₃)] +
+
+[(x-x₀)(x-x₁)(x-x₃)y₂] / [(x₂-x₀)(x₂-x₁)(x₂-x₃)] +
+
+[(x-x₀)(x-x₁)(x-x₂)y₃] / [(x₃-x₀)(x₃-x₁)(x₃-x₂)]
+```
+
+---
+
+## Parameters
+
+| Parameter | Type | Description |
+|----------|------|-------------|
+| `ax` | `double[]` | array containing x values |
+| `ay` | `double[]` | array containing y values |
+| `x` | `double` | position where y needs to be calculated |
+
+---
+
+## Returns
+
+```
+double
+```
+
+Estimated value
+
+y<sub>p</sub> = y(x)
+
+---
+
+# newtonForward()
+
+Computes interpolation using **Newton Forward Difference Method**.
+
+This method is suitable when the required value is **near the beginning of the table**.
+
+---
+
+### Formula
+
+For 4 data points:
+
+```
+y(x) = y₀
+     + uΔy₀
+     + [u(u−1)/2!]Δ²y₀
+     + [u(u−1)(u−2)/3!]Δ³y₀
+```
+
+Where
+
+```
+u = (x - x₀) / h
+h = x₁ - x₀
+```
+
+Forward differences:
+
+```
+Δy₀ = y₁ − y₀
+
+Δ²y₀ = Δy₁ − Δy₀
+
+Δ³y₀ = Δ²y₁ − Δ²y₀
+```
+
+---
+
+## Parameters
+
+| Parameter | Type | Description |
+|----------|------|-------------|
+| `ax` | `double[]` | array of x values |
+| `ay` | `double[]` | array of y values |
+| `x` | `double` | position where y is required |
+
+---
+
+## Returns
+
+```
+double
+```
+
+Estimated value
+
+y<sub>p</sub>
+
+---
+
+# newtonBackward()
+
+Computes interpolation using **Newton Backward Difference Method**.
+
+This method is preferred when the required value is **near the end of the table**.
+
+---
+
+### Formula
+
+For 4 data points:
+
+```
+y(x) = y₃
+     + u∇y₃
+     + [u(u+1)/2!]∇²y₃
+     + [u(u+1)(u+2)/3!]∇³y₃
+```
+
+Where
+
+```
+u = (x - x₃) / h
+h = x₁ - x₀
+```
+
+Backward differences:
+
+```
+∇y₃ = y₃ − y₂
+
+∇²y₃ = ∇y₃ − ∇y₂
+
+∇³y₃ = ∇²y₃ − ∇²y₂
+```
+
+---
+
+## Parameters
+
+| Parameter | Type | Description |
+|----------|------|-------------|
+| `ax` | `double[]` | array of x values |
+| `ay` | `double[]` | array of y values |
+| `x` | `double` | position where y is required |
+
+---
+
+## Returns
+
+```
+double
+```
+
+Estimated value
+
+y<sub>p</sub>
+
+---
+
+# Example
+
+```java
+public static void main(String[] args) {
+
+    double[] ax = {0, 1, 2, 3};
+    double[] ay = {0, 1, 12, 57};
+
+    double x = 2.7;
+
+    double forward = Interpolation.newtonForward(ax, ay, x);
+    double backward = Interpolation.newtonBackward(ax, ay, x);
+    double lagrange = Interpolation.lagrange(ax, ay, x);
+
+    System.out.println("Newton Forward: " + forward);
+    System.out.println("Lagrange: " + lagrange);
+    System.out.println("Newton Backward: " + backward);
+
+}
+```
+
+---
+
+# Methods Summary
+
+| Method | Best Used When | Requirement |
+|------|------|------|
+| Lagrange | Any point in table | No equal spacing required |
+| Newton Forward | Near beginning | Equal spacing required |
+| Newton Backward | Near end | Equal spacing required |
+
+---
+
+# Notes
+
+- Arrays `ax` and `ay` must have the **same length**.
+- Newton Forward and Backward methods assume **equally spaced x values**.
+- Lagrange interpolation works for **unequally spaced data**.
+
+---
