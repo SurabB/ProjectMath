@@ -37,8 +37,10 @@ Add the repository to your `pom.xml`:
 
 ```
 
-### Source code info:
-<i>Information about a particular java file is available in respective <b>.md  file </b>inside <b>md</b> folder.</i>
+### Readme Files:
+<i>Information about a particular java file is available in respective <b>.md  file </b>inside <b>md</b> folder.</i>\
+[Readme-files-location](https://github.com/SurabB/ProjectMath/tree/main/md)
+
 
 
 ## Requirements
