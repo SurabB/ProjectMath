@@ -185,12 +185,10 @@ Computes the root using the **Secant Method**.
 This method approximates the derivative using two points.
 
 ### Formula
-
-x<sub>n+1</sub> = x<sub>n</sub> − f(x<sub>n</sub>) (x<sub>n</sub> − x<sub>n−1</sub>) / ( f(x<sub>n</sub>) − f(x<sub>n−1</sub>) )
-
+x<sub>n</sub> =(a*f(b)-b*f(a))/(f(b)-f(a))
 The iteration continues until
 
-|x<sub>n+1</sub> − x<sub>n</sub>| < eps or max Iteration.
+|f(x<sub>n</sub>)| < eps or max Iteration.
 
 ---
 

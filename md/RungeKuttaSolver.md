@@ -87,7 +87,7 @@ k<sub>2</sub> = h * f(x<sub>n</sub> + h/2, y<sub>n</sub> + k<sub>1</sub>/2)\
 k<sub>3</sub> = h * f(x<sub>n</sub> + h/2, y<sub>n</sub> + k<sub>2</sub>/2)\
 k<sub>4</sub> = h * f(x<sub>n</sub> + h, y<sub>n</sub> + k<sub>3</sub>)\
 y<sub>n+1</sub> = y<sub>n</sub> + (1/6) * (k<sub>1</sub> + 2*k<sub>2</sub> + 2*k<sub>3</sub> + k<sub>4</sub>)\
-x<sub>n+1</sub> = x<sub>n</sub> + h\
+x<sub>n+1</sub> = x<sub>n</sub> + h
 ***
 
 ---
@@ -106,7 +106,7 @@ dz/dx = g(x,y,z)
 ***
 y<sub>n+1</sub> = y<sub>n</sub> + h * F(x<sub>n</sub>,y<sub>n</sub>,z<sub>n</sub>)\
 z<sub>n+1</sub> = z<sub>n</sub> + h * g(x<sub>n</sub>,y<sub>n</sub>,z<sub>n</sub>)\
-x<sub>n+1</sub> = x<sub>n</sub> + h\
+x<sub>n+1</sub> = x<sub>n</sub> + h
 ***
 
 ---
@@ -117,7 +117,7 @@ x<sub>n+1</sub> = x<sub>n</sub> + h\
 ***
 y<sub>n+1</sub> = y<sub>n</sub> + (h/2) * [F(x<sub>n</sub>,y<sub>n</sub>,z<sub>n</sub>) + F(x<sub>n+1</sub>,y<sub>n+1</sub><sup>euler</sup>,z<sub>n+1</sub><sup>euler</sup>)]\
 z<sub>n+1</sub> = z<sub>n</sub> + (h/2) * [g(x<sub>n</sub>,y<sub>n</sub>,z<sub>n</sub>) + g(x<sub>n+1</sub>,y<sub>n+1</sub><sup>euler</sup>,z<sub>n+1</sub><sup>euler</sup>)]\
-x<sub>n+1</sub> = x<sub>n</sub> + h\
+x<sub>n+1</sub> = x<sub>n</sub> + h
 ***
 
 ---
@@ -142,7 +142,7 @@ k<sub>4</sub> = h * F(x<sub>n</sub>+h, y<sub>n</sub>+k<sub>3</sub>, z<sub>n</sub
 l<sub>4</sub> = h * g(x<sub>n</sub>+h, y<sub>n</sub>+k<sub>3</sub>, z<sub>n</sub>+l<sub>3</sub>)\
 y<sub>n+1</sub> = y<sub>n</sub> + (1/6)*(k<sub>1</sub> + 2*k<sub>2</sub> + 2*k<sub>3</sub> + k<sub>4</sub>)\
 z<sub>n+1</sub> = z<sub>n</sub> + (1/6)*(l<sub>1</sub> + 2*l<sub>2</sub> + 2*l<sub>3</sub> + l<sub>4</sub>)\
-x<sub>n+1</sub> = x<sub>n</sub> + h\
+x<sub>n+1</sub> = x<sub>n</sub> + h
 ***
 
 ---
