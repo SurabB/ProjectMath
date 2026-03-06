@@ -4,14 +4,28 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.backend</groupId>
-    <artifactId>projectMath</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <groupId>io.github.SurabB</groupId>
+    <artifactId>project-math</artifactId>
+    <version>1.0.0</version>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub SurabB Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/SurabB/ProjectMath</url>
+        </repository>
+    </distributionManagement>
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>https://opensource.org/licenses/MIT</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
 
 </project>
