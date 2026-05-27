@@ -2,9 +2,8 @@
 
 **Location**
 
-```
-src/main/java/project/sb/Math/GaussianElimination.java
-```
+[GaussianElimination.java](../src/main/java/project/sb/math/GaussianElimination.java)
+
 
 The `GaussianElimination` class provides utilities to solve **linear algebra problems** using the **Gauss Elimination method**.
 
@@ -17,6 +16,10 @@ It supports:
 All methods in this class are **static**.
 
 ---
+
+# Fields
+## EPS : private static final field that helps to control precision for floating point values
+
 
 # Methods
 

@@ -98,9 +98,8 @@ public class RootFinder {
 
         for (int i = 0; i < maxLoop; i++) {
 
-            double xn = (a*fb-b*fa)/(fb-fa);
+            double xn =b- (fb*(b-a))/(fb-fa);
             double fxn = seed.function.apply(xn);
-
             if (Math.abs(fxn) < eps) {
                 return xn;
             }
@@ -116,10 +115,6 @@ public class RootFinder {
 
         throw new RuntimeException("Secant Method did not converge");
     }
-
-
-
-
     public final static class Seed {
         private final double F_GUESS;
         private final double S_GUESS;

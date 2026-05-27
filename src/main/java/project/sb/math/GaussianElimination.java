@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.stream.IntStream;
 
 public class GaussianElimination {
+    private static final double EPS = 1.0e-6;
     public static boolean isValidSquareMatrix(double[][] matrix) {
         if (matrix == null) {
             throw new IllegalArgumentException("Matrix passed as parameter should not be null");
@@ -27,15 +28,17 @@ public class GaussianElimination {
 
         //keeps track of how many times rows are swapped
         int swappedRows = 0;
-        for (int i = 0; i < arr.length - 1; i++) {
+        int n = arr.length;
+
+        for (int i = 0; i < n - 1; i++) {
             //for diagonal
-            final double eps = 1.0e-6;
-            if (Math.abs(arr[i][i]) < eps) {
+
+            if (Math.abs(arr[i][i]) < EPS) {
 
                 //swap rows
                 boolean pivotFound = false;
-                for (int k = i + 1; k < arr.length; k++) {
-                    if (Math.abs(arr[k][i]) > eps) {
+                for (int k = i + 1; k < n; k++) {
+                    if (Math.abs(arr[k][i]) > EPS) {
 
                         double[] temp = arr[i];
                         arr[i] = arr[k];
@@ -50,14 +53,14 @@ public class GaussianElimination {
             }
 
 
-            for (int j = i + 1; j < arr.length; j++) {
+            for (int j = i + 1; j < n; j++) {
 
 
                 //for element except diagonal
                 double multiplyConstant = ((arr[j][i] / arr[i][i]));
-                if (Math.abs(arr[j][i]) > eps) {
+                if (Math.abs(arr[j][i]) > EPS) {
                     //it traverses through pivot element(arr[i][i]) row and currVal row to perform necessary operation
-                    for (int k = 0; k < arr.length; k++) {
+                    for (int k = 0; k < n; k++) {
 
                         arr[j][k] -= (arr[i][k] * multiplyConstant);
                     }
@@ -71,7 +74,7 @@ public class GaussianElimination {
         }
         //find determinant by multiplying diagonal elements
         double determinant = 1;
-        for (int p = 0; p < arr.length; p++) {
+        for (int p = 0; p < n; p++) {
 
             determinant *= arr[p][p];
 
@@ -100,18 +103,16 @@ public class GaussianElimination {
                 .toArray(double[][]::new);
 
         double[] b = Arrays.copyOf(B, B.length);
-        final double eps = 1.0e-6;
-        //keeps track of how many times rows are swapped
 
         for (int i = 0; i < arr.length - 1; i++) {
             //for diagonal
 
-            if (Math.abs(arr[i][i]) < eps) {
+            if (Math.abs(arr[i][i]) < EPS) {
 
                 //swap rows
                 boolean pivotFound = false;
                 for (int k = i + 1; k < arr.length; k++) {
-                    if (Math.abs(arr[k][i]) > eps) {
+                    if (Math.abs(arr[k][i]) > EPS) {
                         double[] temp = arr[i];
                         arr[i] = arr[k];
                         arr[k] = temp;
@@ -125,7 +126,9 @@ public class GaussianElimination {
                     }
 
                 }
-                if (!pivotFound) return new double[]{};
+                if (!pivotFound) {
+                    throw new RuntimeException("Cannot solve eqn as matrix is not invertible");
+                }
             }
 
 
@@ -134,7 +137,7 @@ public class GaussianElimination {
 
                 //for element except diagonal
                 double multiplyConstant = ((arr[j][i] / arr[i][i]));
-                if (Math.abs(arr[j][i]) > eps) {
+                if (Math.abs(arr[j][i]) > EPS) {
                     b[j] -= (b[i] * multiplyConstant);
 
                     for (int k = 0; k < arr.length; k++) {

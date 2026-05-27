@@ -2,9 +2,9 @@
 
 **Location**
 
-```
-src/main/java/project/sb/Math/GaussJordan.java
-```
+
+[GaussJordan.java](../src/main/java/project/sb/math/GaussJordan.java)
+
 
 The `GaussJordan` class provides utilities to solve linear algebra problems using the **Gauss–Jordan Elimination Method**.
 
@@ -41,6 +41,10 @@ Where
 - `A⁻¹` → inverse matrix
 
 ---
+# Fields
+## EPS :
+  `private static final` field that helps to control precision for floating point values
+
 
 # Methods
 
@@ -107,37 +111,6 @@ boolean
 
 ---
 
-## createInitialAns()
-
-Creates an **identity matrix** used during Gauss–Jordan elimination.
-
-This method is **private** and used internally.
-
-### Method Signature
-
-```java
-private static double[][] createInitialAns(double[][] matrix);
-```
-
-### Purpose
-
-Creates the matrix:
-
-```
-I =
-1 0 0 ... 0
-0 1 0 ... 0
-0 0 1 ... 0
-...
-```
-
-This identity matrix is appended to the original matrix so that:
-
-```
-[A | I] → [I | A⁻¹]
-```
-
----
 
 ## solveEqn()
 
@@ -225,7 +198,6 @@ public static void main(String[] args) {
 # Example Output
 
 ```
-determinant : 525.165
 
 __S__O__L__U__T__I__O__N   I__N__V__E__R__S__E
 
@@ -243,7 +215,6 @@ __S__O__L__U__T__I__O__N   I__N__V__E__R__S__E
 |------|-------------|
 | `inverse()` | Computes inverse of square matrix |
 | `isValidSquareMatrix()` | Validates if matrix is square |
-| `createInitialAns()` | Generates identity matrix (internal use) |
 | `solveEqn()` | Solves system of equations Ax = B |
 
 ---

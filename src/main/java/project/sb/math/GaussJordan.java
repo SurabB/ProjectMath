@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.stream.IntStream;
 
 public class GaussJordan {
+    private static final double EPS = 1.0e-6;
 
     public static boolean isValidSquareMatrix(double[][] matrix) {
         if (matrix == null) {
@@ -12,17 +13,6 @@ public class GaussJordan {
         return IntStream.range(0, matrix.length).allMatch(i -> matrix[i].length == matrix.length);
     }
 
-    private static double[][] createInitialAns(double[][] matrix) {
-        double[][] arr = new double[matrix.length][matrix.length];
-        for (int i = 0; i < matrix.length; i++) {
-            for (int j = 0; j < matrix.length; j++) {
-                if (i == j) {
-                    arr[i][i] = 1;
-                } else arr[i][j] = 0;
-            }
-        }
-        return arr;
-    }
 
 
     public static double[][] inverse(double[][] arr) {
@@ -36,15 +26,20 @@ public class GaussJordan {
         double[][] matrix = Arrays.stream(arr)
                 .map(double[]::clone) // Clones each inner array
                 .toArray(double[][]::new);
+        int n= matrix.length;
 
-        double[][] ans = createInitialAns(matrix);
-        final double eps = 1.0e-6;
+        //creates identity matrix
+        double[][] ans =new double[n][n];
+        for(int i=0;i<n;i++){
+            ans[i][i]=1;
+        }
 
-        for (int i = 0; i < matrix.length; i++) {
-            if (Math.abs(matrix[i][i]) < eps) {
+
+        for (int i = 0; i < n; i++) {
+            if (Math.abs(matrix[i][i]) < EPS) {
                 boolean swapped = false;
-                for (int l = i + 1; l < matrix.length; l++) {
-                    if (Math.abs(matrix[l][i]) > eps) {
+                for (int l = i + 1; l < n; l++) {
+                    if (Math.abs(matrix[l][i]) > EPS) {
                         double[] temp = matrix[l];
                         matrix[l] = matrix[i];
                         matrix[i] = temp;
@@ -64,28 +59,25 @@ public class GaussJordan {
             }
             double currVal = matrix[i][i];
             //loop through currVal row to update value
-            for (int k = 0; k < matrix.length; k++) {
+            for (int k = 0; k < n; k++) {
                 matrix[i][k] = matrix[i][k] / currVal; //just divide by currVal to make diagonal element 1
                 ans[i][k] = ans[i][k] / currVal;//replicate the computation done in matrix array in ans array
             }
             //compute for all non-diagonal element of that particular column
-            for (int j = matrix.length - 1; j >= 0; j--) {
+            for (int j =0; j <n; j++) {
+
+                double currValJ = matrix[j][i];
                 //except for diagonal element compute other elements to make them 0
+                //if element already 0 for non-diagonal element, skip the process else follow the process.
 
-
-                if (i != j) {
-                    double currValJ = matrix[j][i];
-                    //if element already 0 for non-diagonal element, skip the process else follow the process.
-                    if (Math.abs(currValJ) > eps) {
+                if(i==j||Math.abs(currValJ) < EPS){
+                    continue;
+                }
 
                         //it traverses through pivot element row and currValJ row to perform necessary operation
-                        for (int k = 0; k < matrix.length; k++) {
+                for (int k = 0; k < n; k++) {
                             matrix[j][k] = matrix[j][k] - matrix[i][k] * currValJ;
                             ans[j][k] = ans[j][k] - ans[i][k] * currValJ;
-                        }
-
-
-                    }
                 }
 
             }
@@ -115,10 +107,12 @@ public class GaussJordan {
         double[] arrB = Arrays.copyOf(B, B.length);
         final double eps = 1.0e-6;
 
-        for (int i = 0; i < arrA.length; i++) {
+        int n = arrA.length;
+
+        for (int i = 0; i < n; i++) {
             if (Math.abs(arrA[i][i]) < eps) {
                 boolean swapped = false;
-                for (int l = i + 1; l < arrA.length; l++) {
+                for (int l = i + 1; l < n; l++) {
                     if (Math.abs(arrA[l][i]) > eps) {
                         double[] temp = arrA[l];
                         arrA[l] = arrA[i];
@@ -134,35 +128,36 @@ public class GaussJordan {
 
                 }
                 if (!swapped) {
-                    return new double[]{};
-                  }
+                    throw new RuntimeException("Cannot solve eqn as matrix is not invertible");
+
+                }
             }
             double currVal = arrA[i][i];
             arrB[i] = arrB[i] / currVal;
             //loop through currVal row to update value
-            for (int k = 0; k < arrA.length; k++) {
+            for (int k = 0; k < n; k++) {
                 arrA[i][k] = arrA[i][k] / currVal; //just divide by currVal to make diagonal element 1
             }
             //compute for all non-diagonal element of that particular column
-            for (int j = arrA.length - 1; j >= 0; j--) {
+            for (int j =0; j < n; j++) {
+                double currValJ = arrA[j][i];
+
                 //except for diagonal element compute other elements to make them 0
+                //if element already 0 for non-diagonal element, skip the process else follow the process.
 
-
-                if (i != j) {
-                    double currValJ = arrA[j][i];
-
-                    //if element already 0 for non-diagonal element, skip the process else follow the process.
-                    if (Math.abs(currValJ) > eps) {
-                        arrB[j] = arrB[j] - arrB[i] * currValJ;
-                        //it traverses through pivot element row and currValJ row to perform necessary operation
-                        for (int k = 0; k < arrA.length; k++) {
-                            arrA[j][k] = arrA[j][k] - arrA[i][k] * currValJ;
-
-                        }
-
-
-                    }
+                if(i==j||Math.abs(currValJ) < eps){
+                    continue;
                 }
+
+
+
+                arrB[j] = arrB[j] - arrB[i] * currValJ;
+                        //it traverses through pivot element row and currValJ row to perform necessary operation
+                for (int k = 0; k < n; k++) {
+                    arrA[j][k] = arrA[j][k] - arrA[i][k] * currValJ;
+
+                }
+
 
             }
 

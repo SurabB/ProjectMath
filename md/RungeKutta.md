@@ -1,11 +1,11 @@
-# RungeKuttaSolver
+# RungeKutta
 
 **Location:**
-```
-src/main/java/project/sb/Math/RungeKuttaSolver.java
-```
 
-The `RungeKuttaSolver` class provides utilities to solve **Ordinary Differential Equations (ODEs)** numerically.
+[RungeKutta.java](../src/main/java/project/sb/math/RungeKutta.java)
+
+
+The `RungeKutta` class provides utilities to solve **Ordinary Differential Equations (ODEs)** numerically.
 
 It supports:
 
@@ -47,7 +47,7 @@ z(x<sub>0</sub>) = z<sub>0</sub>
 
 ## First Order Solvers
 
-### firstOrderDiffUsingEuler()
+### solve1stODeEuler()
 
 **System:**
 ```
@@ -62,7 +62,7 @@ x<sub>n+1</sub> = x<sub>n</sub> + h
 
 ---
 
-### firstOrderDiffUsingRk2()
+### solve1stODErk2()
 
 **Heun's Method (Rk2):**
 ***
@@ -73,7 +73,7 @@ y<sub>n+1</sub><sup>euler</sup> = y<sub>n</sub> + h * F(x<sub>n</sub>,y<sub>n</s
 
 ---
 
-### firstOrderDiffUsingRk4()
+### solve1stODErk4()
 
 **System:**
 ```
@@ -94,7 +94,7 @@ x<sub>n+1</sub> = x<sub>n</sub> + h
 
 ## Second Order Solvers
 
-### secondOrderDiffUsingEuler()
+### solve2ndODeEuler()
 
 **System:**
 ```
@@ -111,7 +111,7 @@ x<sub>n+1</sub> = x<sub>n</sub> + h
 
 ---
 
-### secondOrderDiffUsingRk2()
+### solve2ndODErk2()
 
 **Heun's Method (Rk2):**
 ***
@@ -122,7 +122,7 @@ x<sub>n+1</sub> = x<sub>n</sub> + h
 
 ---
 
-### secondOrderDiffUsingRk4()
+### solve2ndODErk4()
 
 **System:**
 ```
@@ -160,7 +160,9 @@ x<sub>n+1</sub> = x<sub>n</sub> + h
 | iterations | Number of iterations |
 
 **Returns:**  
-`HashMap<Integer, List<Double>>` → iteration → `[x, y]`
+``` java 
+double[] -> [x, y]
+```
 
 ### Second Order Solvers
 
@@ -174,24 +176,26 @@ x<sub>n+1</sub> = x<sub>n</sub> + h
 | iterations | Number of iterations |
 
 **Returns:**  
-`HashMap<Integer, List<Double>>` → iteration → `[x, y, z]`
+``` java 
+double[] -> [x, y, z]
+```
 
 ---
 
 # Example
 
 ```java
-public static void main(String[] args) { 
+    public static void main(String[] args) {
 
-    HashMap<Integer, List<Double>> values = 
-        RungeKuttaSolver.secondOrderDiffUsingRk4(
-            0, 0, 0, 0.25, (x, y, z) -> 5 + 4*y - 2*z, 2
-        ); 
+  double[] ans=
+          RungeKutta.solve2ndODErk4(
+                  0, 0, 0, 0.25, (x, y, z) -> 5 + 4*y - 2*z, 2
+          );
 
-    values.forEach((key, value) -> { 
-        System.out.println("itr: %d , values = %s".formatted(key, value)); 
-    }); 
+  System.out.println("x : "+ans[0]+" ,y : "+ans[1]+" , z : "+ans[2]);
 }
 ```
-
-This will output the **iteration number and computed `[x, y, z]` values** for each step.
+```  java
+Output :
+ x : 0.75 ,y : 1.0666405933874623 , z : 2.724751719722041
+  ```

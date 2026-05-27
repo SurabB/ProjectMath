@@ -2,9 +2,9 @@
 
 **Location**
 
-```
-src/main/java/project/sb/Math/RootFinder.java
-```
+
+[RootFinder.java](../src/main/java/project/sb/math/RootFinder.java)
+
 
 `RootFinder` is a utility class that provides numerical methods to compute **roots of non-linear equations**.
 

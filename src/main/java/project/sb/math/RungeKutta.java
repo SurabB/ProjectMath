@@ -1,33 +1,22 @@
 package project.sb.math;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.function.BiFunction;
 
-public class RungeKuttaSolver {
+public class RungeKutta {
 
 
-    public static  HashMap<Integer, List<Double>> firstOrderDiffUsingRk2(double xnow,double ynow,double h,BiFunction<Double,Double,Double>func,int itr){
-        //stores values  x and y for each iteration including initial ones
-     HashMap<Integer,List<Double>> values=new LinkedHashMap<>(itr+1);
+    public static  double[] solve1stODErk2(double xnow,double ynow,double h,BiFunction<Double,Double,Double>func,int itr){
         for(int i=0;i<=itr;i++){
             //follows Heun's y n+1 formula
             double ynext=ynow+(h/2)*(func.apply(xnow,ynow)+func.apply(xnow+h,ynow+h*func.apply(xnow,ynow)));
-
-            //stores current values x,y
-            values.put(i,List.of(xnow,ynow));
-
             //update the values
             ynow=ynext;
             xnow=xnow+h;
         }
-        //returns values x and y of each iteration including the initial values.
-        return values;
+        return new double[]{xnow,ynow};
     }
-    public static  HashMap<Integer,List<Double>> secondOrderDiffUsingRk2(double xnow,double ynow,double znow,double h,TriFunction<Double>func,int itr){
-        //stores values  x,y,z for each iteration including initial ones
-        HashMap<Integer,List<Double>> values=new LinkedHashMap<>(itr+1);
+    public static double[] solve2ndODErk2(double xnow,double ynow,double znow,double h,TriFunction<Double>func,int itr){
+
         for(int i=0;i<=itr;i++){
             //follows Heun's z n+1 euler formula
             double znowEuler=znow+h*func.apply(xnow,ynow,znow);
@@ -41,8 +30,6 @@ public class RungeKuttaSolver {
             //follows Heun's  z n+1 formula
             double znext=znow+(h/2)*(func.apply(xnow,ynow,znow)+func.apply(xnow,ynowEuler,znowEuler));
 
-            //stores current x,y,z
-            values.put(i,List.of(xnow,ynow,znow));
 
             //update the values
             ynow=ynext;
@@ -50,27 +37,22 @@ public class RungeKuttaSolver {
             znow=znext;
 
         }
-        return values;
+            return new double[]{xnow,ynow,znow};
     }
-    public  static HashMap<Integer, List<Double>> firstOrderDiffUsingEuler(double xnow, double ynow, double h, BiFunction<Double,Double,Double>func, int itr){
-        //stores values  x and y for each iteration including initial ones
-        HashMap<Integer,List<Double>> values=new LinkedHashMap<>(itr+1);
+    public  static double[] solve1stODeEuler(double xnow, double ynow, double h, BiFunction<Double,Double,Double>func, int itr){
+
         for(int i=0;i<=itr;i++){
             //follows euler y n+1 formula
             double ynext=ynow+h*func.apply(xnow,ynow);
-
-            //stores current value of x and y
-            values.put(i,List.of(xnow,ynow));
 
             //update the values
             ynow=ynext;
             xnow=xnow+h;
         }
-        return values;
+        return new double[]{xnow,ynow};
     }
-    public static  HashMap<Integer, List<Double>> secondOrderDiffUsingEuler(double xnow,double ynow,double znow,double h,TriFunction<Double> func,int itr){
-        //stores values  x,y,z  for each iteration including initial ones
-        HashMap<Integer,List<Double>> values=new LinkedHashMap<>(itr+1);
+    public static double[] solve2ndODeEuler(double xnow,double ynow,double znow,double h,TriFunction<Double> func,int itr){
+
         for(int i=0;i<=itr;i++){
             //follows euler z n+1 formula
            double znext=znow+h*func.apply(xnow,ynow,znow);
@@ -78,24 +60,19 @@ public class RungeKuttaSolver {
            //follows euler y n+1 formula
             double ynext=ynow+h*znow;
 
-            //stores current value of x,y,z
-            values.put(i,List.of(xnow,ynow,znow));
 
             //update the values
             ynow=ynext;
             xnow=xnow+h;
             znow=znext;
         }
-        return values;
+        return new double[]{xnow,ynow,znow};
+
     }
-    public static  HashMap<Integer, List<Double>>firstOrderDiffUsingRk4(double xnow,double ynow,double h,BiFunction<Double,Double,Double> func,int itr){
-        //stores values  x,y,z  for each iteration including initial ones
-        HashMap<Integer,List<Double>> values=new LinkedHashMap<>(itr+1);
+    public static double[] solve1stODErk4(double xnow,double ynow,double h,BiFunction<Double,Double,Double> func,int itr){
 
         for(int i=0;i<=itr;i++){
 
-            //stores current value of x,y
-            values.put(i,List.of(xnow,ynow));
 
             //find k1,k2,k3,k4 for necessary computation
             double kOne=h*func.apply(xnow,ynow);
@@ -111,16 +88,11 @@ public class RungeKuttaSolver {
             ynow=ynext;
             xnow=xnow+h;
         }
-        return values;
+        return new double[]{xnow,ynow};
     }
-    public static  HashMap<Integer, List<Double>> secondOrderDiffUsingRk4(double xnow,double ynow,double znow,double h,TriFunction<Double> func,int itr){
-        //stores values  x,y,z  for each iteration including initial ones
-        HashMap<Integer,List<Double>> values=new LinkedHashMap<>(itr+1);
+    public static  double[] solve2ndODErk4(double xnow,double ynow,double znow,double h,TriFunction<Double> func,int itr){
 
         for(int i=0;i<=itr;i++){
-
-            //stores current value of x,y,z
-            values.put(i,List.of(xnow,ynow,znow));
 
             //find k1,l1,k2,l2,k3,l3,k4,l4 for necessary computation
            double kOne=h*znow;
@@ -142,8 +114,7 @@ public class RungeKuttaSolver {
            znow=znext;
            xnow=xnow+h;
         }
-        return values;
+        return new double[]{xnow,ynow,znow};
     }
-
 
 }

@@ -2,9 +2,9 @@
 
 **Location**
 
-```
-src/main/java/project/sb/Math/Interpolation.java
-```
+
+[Interpolation.java](../src/main/java/project/sb/math/Interpolation.java)
+
 
 `Interpolation` provides numerical methods to estimate the value of a function **between known data points**.
 
